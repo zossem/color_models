@@ -1,13 +1,11 @@
 ﻿#include "SFML/Graphics.hpp"
-#include "ShareTechMono-Regular.h"
 #include "Hexagon.h"
-
 #include <numeric>
 #include <iostream>
 
 //Tak – dobrze państwo widzą – TO jest zmienna globalna! Czytanie i przetwarzanie fontów w SFML jest bardzo kosztowne. Dlatego zrobimy to raz. 
 //Co nie zmienia faktu, że można by to zrobić bez zmiennej globalnej i to całkiem ładnie. Jak? To już dla Państwa :-)
-std::shared_ptr<sf::Font> font;
+
 
 
 int main()
@@ -24,9 +22,8 @@ int main()
     std::vector<sf::Int64> frame_times;
     sf::Text text;
 
-    font = std::make_shared<sf::Font>();
-    font->loadFromMemory(&(ShareTechMono_Regular_ttf[0]), ShareTechMono_Regular_ttf.size());
-    text.setFont(*font);
+    
+    text.setFont(*h_RGB.font);
     text.setCharacterSize(21);
     text.setFillColor(sf::Color::Black);
 
@@ -84,7 +81,7 @@ int main()
     }
 
     //Hmmm ... :-/
-    font.reset();
+    h_RGB.font.reset();
 
     return 0;
 }

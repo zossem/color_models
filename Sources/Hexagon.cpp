@@ -1,6 +1,7 @@
 #include "SFML/Graphics.hpp"
 #include "Hexagon.h"
 #include <numeric>
+#include "ShareTechMono-Regular.h"
 
 
 hexagon::hexagon()
@@ -22,6 +23,57 @@ hexagon::hexagon()
     hex[4].color = sf::Color::Black;
     hex[5].color = sf::Color::Black;
     hex[6].color = sf::Color::Black;
+
+    font = std::make_shared<sf::Font>();
+    font->loadFromMemory(&(ShareTechMono_Regular_ttf[0]), ShareTechMono_Regular_ttf.size());
+
+    name.setFont(*font);
+    name.setCharacterSize(21);
+    name.setFillColor(sf::Color::Black);
+
+    up_corrner.setFont(*font);
+    up_corrner.setCharacterSize(21);
+    up_corrner.setFillColor(sf::Color::Black);
+
+    left_corrner.setFont(*font);
+    left_corrner.setCharacterSize(21);
+    left_corrner.setFillColor(sf::Color::Black);
+
+    right_corrner.setFont(*font);
+    right_corrner.setCharacterSize(21);
+    right_corrner.setFillColor(sf::Color::Black);
+}
+
+hexagon_RGB::hexagon_RGB()
+{
+    name.setString("RGB");
+    up_corrner.setString("R");
+    left_corrner.setString("G");
+    right_corrner.setString("B");
+}
+
+hexagon_CMY::hexagon_CMY()
+{
+    name.setString("CMK");
+    up_corrner.setString("C");
+    left_corrner.setString("M");
+    right_corrner.setString("K");
+}
+
+hexagon_HSL::hexagon_HSL()
+{
+    name.setString("HSL");
+    up_corrner.setString("H");
+    left_corrner.setString("S");
+    right_corrner.setString("L");
+}
+
+hexagon_HSB::hexagon_HSB()
+{
+    name.setString("HSB");
+    up_corrner.setString("H");
+    left_corrner.setString("S");
+    right_corrner.setString("B");
 }
 
 //Trochê matematyki jeszcze nikomu nie zaszkodzi³o. Wiêc dwie kolejne metody to czysta matematyka.
@@ -67,13 +119,22 @@ void hexagon::Set_Borders(sf::Vector2f _left_top, sf::Vector2f _right_bottom)
 
     for (int i = 0; i < 7; i++)
         hex[i].position = p[i % 6];
+
+    name.setPosition(sf::Vector2f(left_top.x + 5.0f, left_top.y + 5.0f));
+    up_corrner.setPosition(p[0]- sf::Vector2f(20.0f,  20.0f));
+    left_corrner.setPosition(p[2] - sf::Vector2f(10.0f, 0.0f));
+    right_corrner.setPosition(p[4] + sf::Vector2f(10.0f, 0.0f));
 }
 
-void hexagon::Draw_Border(sf::RenderTarget& target, sf::RenderStates states, sf::String name) const
+void hexagon::Draw_Border(sf::RenderTarget& target, sf::RenderStates states) const
 {   
     target.draw(square);
     target.draw(hex);  
-    
+
+    target.draw(name);
+    target.draw(up_corrner);
+    target.draw(right_corrner);
+    target.draw(left_corrner);
   
     
     // Tu trzeba narysowaæ ramkê. I napisy.
@@ -83,7 +144,7 @@ void hexagon_RGB::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
     //Tu trzeba narysowaæ szeœciok¹t RGB.
 
-    Draw_Border(target, states, "RGB");
+    Draw_Border(target, states);
 }
 
 
@@ -92,7 +153,7 @@ void hexagon_CMY::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
     //Tu trzeba narysowaæ szeœciok¹t CMY.
 
-    Draw_Border(target, states, "CMY");
+    Draw_Border(target, states);
 }
 
 
@@ -101,7 +162,7 @@ void hexagon_HSL::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
     //Tu trzeba narysowaæ szeœciok¹t HSL.
 
-    Draw_Border(target, states, "HSL");
+    Draw_Border(target, states);
 }
 
 
@@ -110,7 +171,7 @@ void hexagon_HSB::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
     //Tu trzeba narysowaæ szeœciok¹t HSB.
 
-    Draw_Border(target, states, "HSB");
+    Draw_Border(target, states);
 }
 
 void hexagon::SetDrawParameters(sf::Vector2u draw_area_size)
