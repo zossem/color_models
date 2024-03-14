@@ -3,6 +3,27 @@
 #include <numeric>
 
 
+hexagon::hexagon()
+{
+    sf::VertexArray sq(sf::LinesStrip, 5);
+    square = sq;
+    square[0].color = sf::Color(140, 137, 137);
+    square[1].color = sf::Color(140, 137, 137);
+    square[2].color = sf::Color(140, 137, 137);
+    square[3].color = sf::Color(140, 137, 137);
+    square[4].color = sf::Color(140, 137, 137);
+
+    sf::VertexArray h(sf::LinesStrip, 7);
+    hex = h;
+    hex[0].color = sf::Color::Black;
+    hex[1].color = sf::Color::Black;
+    hex[2].color = sf::Color::Black;
+    hex[3].color = sf::Color::Black;
+    hex[4].color = sf::Color::Black;
+    hex[5].color = sf::Color::Black;
+    hex[6].color = sf::Color::Black;
+}
+
 //Trochê matematyki jeszcze nikomu nie zaszkodzi³o. Wiêc dwie kolejne metody to czysta matematyka.
 float hexagon::d_coefficient(sf::Vector2f p0, sf::Vector2f p1, sf::Vector2f p) const
 {
@@ -37,10 +58,24 @@ void hexagon::Set_Borders(sf::Vector2f _left_top, sf::Vector2f _right_bottom)
     p[3] = center + sf::Vector2f(0.0f, a);
     p[4] = center + sf::Vector2f(0.5f * sqrt(3.0f) * a, 0.5f * a);
     p[5] = center + sf::Vector2f(0.5f * sqrt(3.0f) * a, -0.5f * a);
+
+    square[0].position = sf::Vector2f(left_top.x + 5.0f, left_top.y + 5.0f);
+    square[1].position = sf::Vector2f(left_top.x + 5.0f, right_bottom.y - 5.0f);
+    square[2].position = sf::Vector2f(right_bottom.x - 5.0f, right_bottom.y - 5.0f);
+    square[3].position = sf::Vector2f(right_bottom.x - 5.0f, left_top.y + 5.0f);
+    square[4].position = sf::Vector2f(left_top.x + 5.0f, left_top.y + 5.0f);
+
+    for (int i = 0; i < 7; i++)
+        hex[i].position = p[i % 6];
 }
 
 void hexagon::Draw_Border(sf::RenderTarget& target, sf::RenderStates states, sf::String name) const
-{
+{   
+    target.draw(square);
+    target.draw(hex);  
+    
+  
+    
     // Tu trzeba narysowaæ ramkê. I napisy.
 }
 
@@ -76,4 +111,38 @@ void hexagon_HSB::draw(sf::RenderTarget& target, sf::RenderStates states) const
     //Tu trzeba narysowaæ szeœciok¹t HSB.
 
     Draw_Border(target, states, "HSB");
+}
+
+void hexagon::SetDrawParameters(sf::Vector2u draw_area_size)
+{
+    float border = std::min(std::floor(((float)draw_area_size.x - SCROLLBAR_WIDTH -1.0f)/ 2.0f), std::floor(((float)draw_area_size.y -1.0f)/ 2.0f));
+    borders_size = sf::Vector2f(border, border);
+    shift = sf::Vector2f(
+        ((float)draw_area_size.x - SCROLLBAR_WIDTH - 1.0f - this->borders_size.x * 2.0f) / 2.0f,
+        ((float)draw_area_size.y - 1.0f - this->borders_size.y * 2.0f) / 3.0f    );
+}
+
+void hexagon_RGB::SetDrawParameters(sf::Vector2u draw_area_size)
+{
+    hexagon::SetDrawParameters(draw_area_size);
+    Set_Borders(sf::Vector2f(0.0f + shift.x , 0.0f + shift.y ), sf::Vector2f(borders_size.x + shift.x, borders_size.y + shift.y));
+}
+
+
+void hexagon_CMY::SetDrawParameters(sf::Vector2u draw_area_size)
+{
+    hexagon::SetDrawParameters(draw_area_size);
+    Set_Borders(sf::Vector2f(borders_size.x + (shift.x *2.0f), 0.0f + shift.y), sf::Vector2f(borders_size.x * 2.0f + (shift.x * 2.0f), borders_size.y + shift.y));
+}
+
+void hexagon_HSL::SetDrawParameters(sf::Vector2u draw_area_size)
+{
+    hexagon::SetDrawParameters(draw_area_size);
+    Set_Borders(sf::Vector2f(0.0f + shift.x, borders_size.y + (shift.y * 2.0f)), sf::Vector2f(borders_size.x + shift.x, borders_size.y * 2.0f + (shift.y * 2.0f)));
+}
+
+void hexagon_HSB::SetDrawParameters(sf::Vector2u draw_area_size)
+{
+    hexagon::SetDrawParameters(draw_area_size);
+    Set_Borders(sf::Vector2f(borders_size.x + (shift.x * 2.0f), borders_size.y + (shift.y * 2.0f)), sf::Vector2f(borders_size.x * 2.0f + (shift.x * 2.0f), borders_size.y * 2.0f + (shift.y * 2.0f)));
 }

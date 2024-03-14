@@ -50,6 +50,16 @@ int main()
         {
             if (event.type == sf::Event::Closed) window.close();
             // Tu trzeba obsłużyć zdarzenia: zmianę rozmiaru okna oraz klikanie w „suwaczek”. 
+            if (event.type == sf::Event::Resized)
+            {
+                float width = static_cast<float>(event.size.width);
+                float height = static_cast<float>(event.size.height);
+                window.setView(sf::View(sf::FloatRect(0, 0, width, height)));
+                h_RGB.SetDrawParameters(window.getSize());
+                h_CMY.SetDrawParameters(window.getSize());
+                h_HSL.SetDrawParameters(window.getSize());
+                h_HSB.SetDrawParameters(window.getSize());
+            }
         }
 
         window.draw(h_RGB);
