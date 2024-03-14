@@ -18,9 +18,15 @@
     <ClCompile Include="GFK_lab02.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
+    <ClCompile Include="Hexagon.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ShareTechMono-Regular.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Hexagon.h">
       <Filter>Headers</Filter>
     </ClInclude>
   </ItemGroup>

@@ -1,9 +1,6 @@
 #ifndef _SHARE_TECH_MONO_REGULAR_
 #define _SHARE_TECH_MONO_REGULAR_
 
-
-
-
 #include <array>
 #include <cstdint>
 static constexpr std::array<std::uint8_t, 42756> ShareTechMono_Regular_ttf{

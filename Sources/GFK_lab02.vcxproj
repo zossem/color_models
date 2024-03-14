@@ -144,8 +144,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="GFK_lab02.cpp" />
+    <ClCompile Include="Hexagon.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Hexagon.h" />
     <ClInclude Include="ShareTechMono-Regular.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
