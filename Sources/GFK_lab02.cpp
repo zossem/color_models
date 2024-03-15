@@ -2,6 +2,7 @@
 #include "Hexagon.h"
 #include <numeric>
 #include <iostream>
+#include "Scrollbar.h"
 
 //Tak – dobrze państwo widzą – TO jest zmienna globalna! Czytanie i przetwarzanie fontów w SFML jest bardzo kosztowne. Dlatego zrobimy to raz. 
 //Co nie zmienia faktu, że można by to zrobić bez zmiennej globalnej i to całkiem ładnie. Jak? To już dla Państwa :-)
@@ -17,6 +18,7 @@ int main()
     hexagon_CMY h_CMY(window.getSize());
     hexagon_HSL h_HSL(window.getSize());
     hexagon_HSB h_HSB(window.getSize());
+    Scrollbar bar(window.getSize());
 
     sf::Clock frame_clock, around_half_secound_clock;
     sf::Int64 mean_frames_time = 0;
@@ -53,6 +55,7 @@ int main()
                 h_CMY.SetDrawParameters(window.getSize());
                 h_HSL.SetDrawParameters(window.getSize());
                 h_HSB.SetDrawParameters(window.getSize());
+                bar.SetDrawParamiters(window.getSize());
             }
         }
 
@@ -60,6 +63,7 @@ int main()
         window.draw(h_CMY);
         window.draw(h_HSL);
         window.draw(h_HSB);
+        window.draw(bar);
         // Pewnie tu gdzieś wypadało by dorysować jeszcze suwaczek... 
         text.setString(std::to_string(mean_frames_time) + "us");
         window.draw(text);

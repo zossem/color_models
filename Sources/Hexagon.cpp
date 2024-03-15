@@ -2,7 +2,6 @@
 #include "Hexagon.h"
 #include <numeric>
 #include "ShareTechMono-Regular.h"
-#include <iostream>
 #include <math.h>
 
 hexagon::hexagon()
@@ -250,7 +249,7 @@ void hexagon::SetDrawParameters(sf::Vector2u draw_area_size)
     float border = std::min(std::floor(((float)draw_area_size.x - SCROLLBAR_WIDTH )/ 2.0f), std::floor(((float)draw_area_size.y )/ 2.0f));
     borders_size = sf::Vector2f(border, border);
     shift = sf::Vector2f(
-        ((float)draw_area_size.x - SCROLLBAR_WIDTH  - this->borders_size.x * 2.0f) / 2.0f,
+        ((float)draw_area_size.x - SCROLLBAR_WIDTH  - this->borders_size.x * 2.0f) / 4.0f,
         ((float)draw_area_size.y  - this->borders_size.y * 2.0f) / 3.0f    );
 
     
