@@ -13,6 +13,7 @@ protected:
     sf::Vector2f p[6]; // Kolejnoœæ punktów opisana w pliku PDF do laboratorium.
     sf::VertexArray square, hex;
     sf::Text name, up_corrner, left_corrner, right_corrner;
+
 public:
     void Set_Borders(sf::Vector2f _left_top, sf::Vector2f _right_bottom);
     void Draw_Border(sf::RenderTarget& target, sf::RenderStates states) const;

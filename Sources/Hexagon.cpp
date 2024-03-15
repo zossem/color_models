@@ -143,6 +143,34 @@ void hexagon::Draw_Border(sf::RenderTarget& target, sf::RenderStates states) con
 void hexagon_RGB::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
     //Tu trzeba narysowaæ szeœciok¹t RGB.
+    float alfa, beta;
+    sf::Vector2f point;
+    sf::VertexArray to_draw(sf::Points, 1);
+
+    for (float i = left_top.x; i < right_bottom.x; i += 1.0f)
+    {
+        for (float j = left_top.y; j < right_bottom.y; j += 1.0f)
+        {
+            point = sf::Vector2f(i, j);
+            if (hexagon::rhombus(p[0], p[1], point, alfa, beta))
+            {
+                to_draw[0].position = point;
+                to_draw[0].color = sf::Color(255, alfa * 255, beta * 255);
+            }
+            if (hexagon::rhombus(p[2], p[3], point, alfa, beta))
+            {
+                to_draw[0].position = point;
+                to_draw[0].color = sf::Color(beta * 255,  255, alfa * 255);
+            }
+            if (hexagon::rhombus(p[4], p[5], point, alfa, beta))
+            {
+                to_draw[0].position = point;
+                to_draw[0].color = sf::Color(alfa * 255, beta * 255,  255);
+            }
+
+            target.draw(to_draw);
+        }
+    }
 
     Draw_Border(target, states);
 }
