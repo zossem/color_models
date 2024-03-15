@@ -12,6 +12,7 @@ int main()
 {
     sf::RenderWindow window(sf::VideoMode(800, 600), "GFK Lab 02", sf::Style::Titlebar | sf::Style::Close | sf::Style::Resize);
 
+    
     hexagon_RGB h_RGB(window.getSize());
     hexagon_CMY h_CMY(window.getSize());
     hexagon_HSL h_HSL(window.getSize());

@@ -3,6 +3,7 @@
 #include <numeric>
 #include "ShareTechMono-Regular.h"
 #include <iostream>
+#include <math.h>
 
 hexagon::hexagon()
 {
@@ -59,8 +60,8 @@ void hexagon::createTexture() {
     sf::Color counted_color, converted_color;
     std::cout << "Left top x" <<left_top.x<< " y="<< left_top.y << std::endl;
         //float rgb[3];
-        for (float x = left_top.x; x < size - left_top.x; ++x) {
-            for (float y = left_top.y; y < size - left_top.y; ++y) {
+        for (float x = left_top.x; x < size + left_top.x -1.0f; ++x) {
+            for (float y = left_top.y; y < size + left_top.y - 1.0f; ++y) {
                 point = sf::Vector2f((float)x, (float)y);
                 if (hexagon::rhombus(p[0], p[1], point, alfa, beta))
                 {
@@ -69,29 +70,29 @@ void hexagon::createTexture() {
                     /*rgb[0] = 255;
                     rgb[1] = 255 * alfa;
                     rgb[2] = 255 * beta;*/
-                    image.setPixel((unsigned int)x, (unsigned int)y, converted_color);
+                    image.setPixel((unsigned int)x -left_top.x, (unsigned int)y -left_top.y, converted_color);
                 }
-                else if (hexagon::rhombus(p[2], p[3], point, alfa, beta))
+                else if (hexagon::rhombus( p[2], p[3], point, alfa, beta))
                 {
                     counted_color = sf::Color(255 * beta, 255, 255 * alfa, 255);
                     converter(counted_color, converted_color);
                     /*rgb[0] = 255 * beta;
                     rgb[1] = 255;
                     rgb[2] = 255 * alfa;*/
-                    image.setPixel((unsigned int)x, (unsigned int)y, converted_color);
+                    image.setPixel((unsigned int)x - left_top.x, (unsigned int)y - left_top.y, converted_color);
                 }
-                else if (hexagon::rhombus(p[4], p[5], point, alfa, beta))
+                else if (hexagon::rhombus(p[4], p[5] - sf::Vector2f(0.5f, 0.5f), point, alfa, beta))
                 {
-                    counted_color = sf::Color( 255 * alfa, 255 * beta, 255, 255);
+                    counted_color = sf::Color( 255 * alfa, 255 *  beta, 255, 255);
                     converter(counted_color, converted_color);
                     /*rgb[0] = 255 * alfa;
                     rgb[1] = 255 * beta;
                     rgb[2] = 255;*/
-                    image.setPixel((unsigned int)x, (unsigned int)y, converted_color);
+                    image.setPixel((unsigned int)x - left_top.x, (unsigned int)y - left_top.y, converted_color);
                 }
                 else
                 {
-                    image.setPixel((unsigned int)x, (unsigned int)y, sf::Color(0, 0, 0, 0));
+                    image.setPixel((unsigned int)x - left_top.x, (unsigned int)y - left_top.y, sf::Color(0, 0, 0, 0));
                 }
 
             }
@@ -125,6 +126,7 @@ hexagon_CMY::hexagon_CMY(sf::Vector2u draw_area_size)
     createTexture();
     sprite.setTexture(*texture);
     sprite.setPosition(left_top);
+    
 }
 
 hexagon_HSL::hexagon_HSL(sf::Vector2u draw_area_size)
@@ -294,23 +296,58 @@ void hexagon_HSB::SetDrawParameters(sf::Vector2u draw_area_size)
 void hexagon_RGB::converter(sf::Color& passed_color, sf::Color& converted_color)
 {
     converted_color=passed_color;
+    
 }
 
 void hexagon_CMY::converter(sf::Color& passed_color, sf::Color& converted_color)
 {
-    converted_color.r = 255- passed_color.r;
+    converted_color.r = 255 - passed_color.r;
     converted_color.g = 255 - passed_color.g;
     converted_color.b = 255 - passed_color.b;
     converted_color.a = passed_color.a;
-    std::cout << "Dupa" << std::endl;
-    
+
 }
 void hexagon_HSL::converter(sf::Color& passed_color, sf::Color& converted_color)
 {
-    
+    float H, L, S, C, X, m;
+    H = passed_color.r / 255.0f * 360.0f;
+    S = passed_color.g / 255.0f;
+    L = passed_color.b / 255.0f;
+    C = (1 - std::fabs(2.0f * L - 1)) * S;
+    X = C * (1 - std::fabs((int)(H / 60.0f) % 2 - 1.0f));
+    m = L - (C/2.0f);
+    X = (X + m) * 255.0f;
+    C = (C + m) * 255.0f;
+
+    if (H < 60.0f)
+    {
+        converted_color = sf::Color(C, X , 0);
+    }
+    else if (H < 120.0f)
+    {
+        converted_color = sf::Color(X, C, 0);
+    }
+    else if (H < 180.0f)
+    {
+        converted_color = sf::Color(0, C, X);
+    }
+    else if (H < 240.0f)
+    {
+        converted_color = sf::Color(0, X, C);
+    }
+    else if (H < 300.0f)
+    {
+        converted_color = sf::Color(X, 0, C);
+    }
+    else
+    {
+        converted_color = sf::Color(C, 0, X);
+    }
+
+    converted_color.a = 255;
 }
 
 void hexagon_HSB::converter(sf::Color& passed_color, sf::Color& converted_color)
 {
-    
+    converted_color = sf::Color::Blue;
 }
