@@ -12,10 +12,10 @@ int main()
 {
     sf::RenderWindow window(sf::VideoMode(800, 600), "GFK Lab 02", sf::Style::Titlebar | sf::Style::Close | sf::Style::Resize);
 
-    hexagon_RGB h_RGB;
-    hexagon_CMY h_CMY;
-    hexagon_HSL h_HSL;
-    hexagon_HSB h_HSB;
+    hexagon_RGB h_RGB(window.getSize());
+    hexagon_CMY h_CMY(window.getSize());
+    hexagon_HSL h_HSL(window.getSize());
+    hexagon_HSB h_HSB(window.getSize());
 
     sf::Clock frame_clock, around_half_secound_clock;
     sf::Int64 mean_frames_time = 0;
@@ -27,12 +27,8 @@ int main()
     text.setCharacterSize(21);
     text.setFillColor(sf::Color::Black);
 
-    //Nie mogę uniknąć tych "magic numbers" bo bym zdradził w ten sposób co ma być w sf::Event::Resize. A tego byśmy nie chcieli - prawda? :-D
     text.setPosition(10, 10);
-    h_RGB.Set_Borders(sf::Vector2f(0.0f, 0.0f), sf::Vector2f(300.0f, 294.0f));
-    h_CMY.Set_Borders(sf::Vector2f(300.0f, 0.0f), sf::Vector2f(600.0f, 294.0f));
-    h_HSL.Set_Borders(sf::Vector2f(0.0f, 294.0f), sf::Vector2f(300.0f, 588.0f));
-    h_HSB.Set_Borders(sf::Vector2f(300.0f, 294.0f), sf::Vector2f(600.0f, 588.0f));
+
 
     around_half_secound_clock.restart();
 
