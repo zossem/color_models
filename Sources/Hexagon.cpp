@@ -339,5 +339,42 @@ void hexagon_HSL::converter(sf::Color& passed_color, sf::Color& converted_color)
 
 void hexagon_HSB::converter(sf::Color& passed_color, sf::Color& converted_color)
 {
-    converted_color = sf::Color::Blue;
+    //converted_color = sf::Color::Blue;
+    float H, S, B, C, X, m;
+    H = passed_color.r / 255.0f * 360.0f;
+    S = passed_color.g / 255.0f;
+    B = passed_color.b / 255.0f;
+    C = B * S;
+    H = H / 60.0f;
+    X = C * (1 - fabs(fmod(H, 2.0f) - 1.0f));
+    m = B - C;
+    C = (C + m) * 255.0f;
+    X = (X + m) * 255.0f;
+
+    if (H < 1.0f)
+    {
+        converted_color = sf::Color(C, X, m * 255.0f);
+    }
+    else if (H < 2.0f)
+    {
+        converted_color = sf::Color(X, C, m * 255.0f);
+    }
+    else if (H < 3.0f)
+    {
+        converted_color = sf::Color(m * 255.0f, C, X);
+    }
+    else if (H < 4.0f)
+    {
+        converted_color = sf::Color(m * 255.0f, X, C);
+    }
+    else if (H < 5.0f)
+    {
+        converted_color = sf::Color(X, m * 255.0f, C);
+    }
+    else
+    {
+        converted_color = sf::Color(C, m * 255.0f, X);
+    }
+
+    converted_color.a = 255;
 }
