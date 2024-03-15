@@ -301,12 +301,10 @@ void hexagon_HSL::converter(sf::Color& passed_color, sf::Color& converted_color)
 {
     float H, L, S, C, X, m;
     H = passed_color.r / 255.0f * 360.0f;
-    H += 30.5f;
-    H = (int)H%360;
     S = passed_color.g / 255.0f;
     L = passed_color.b / 255.0f;
-    C = (1 - std::fabs(2.0f * L - 1)) * S;
-    X = C * (1 - std::fabs((int)(H / 60.0f) % 2 - 1.0f));
+    C = (1 - fabs(2.0f * L - 1)) * S;
+    X = C * (1 - fabs(fmod((H / 60.0f) , 2.0f) - 1.0f));
     m = L - (C/2.0f);
     X = (X + m) * 255.0f;
     C = (C + m) * 255.0f;
