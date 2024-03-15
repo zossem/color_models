@@ -74,7 +74,7 @@ void Scrollbar::draw(sf::RenderTarget& target, sf::RenderStates states) const
 
 bool Scrollbar::isHitBox(sf::Vector2f mouse_position, float& lightness_to_set)
 {
-	if (left_top.x <= mouse_position.x <= right_bottom.x && left_top.y <= mouse_position.y <= right_bottom.y)
+	if ((left_top.x <= mouse_position.x) && (mouse_position.x <= right_bottom.x) && (left_top.y <= mouse_position.y) && (mouse_position.y <= right_bottom.y))
 	{
 		SetPoitionPointerOnClick(mouse_position);
 		lightness_to_set = current_position_pointer;

@@ -25,6 +25,8 @@ int main()
     std::vector<sf::Int64> frame_times;
     sf::Text text;
 
+    float current_lightness;
+
     
     text.setFont(*h_RGB.font);
     text.setCharacterSize(21);
@@ -56,6 +58,11 @@ int main()
                 h_HSL.SetDrawParameters(window.getSize());
                 h_HSB.SetDrawParameters(window.getSize());
                 bar.SetDrawParamiters(window.getSize());
+            }
+            if (event.type == sf::Event::MouseButtonPressed)
+            {
+                if (bar.isHitBox(sf::Vector2f(event.mouseButton.x, event.mouseButton.y), current_lightness))
+                    std::cout << "Hitbox" << std::endl;
             }
         }
 
