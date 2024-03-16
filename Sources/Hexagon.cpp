@@ -14,16 +14,13 @@ hexagon::hexagon()
     square[3].color = sf::Color(140, 137, 137);
     square[4].color = sf::Color(140, 137, 137);
 
-    sf::VertexArray h(sf::LinesStrip, 7);
-    hex = h;
-    hex[0].color = sf::Color::Black;
-    hex[1].color = sf::Color::Black;
-    hex[2].color = sf::Color::Black;
-    hex[3].color = sf::Color::Black;
-    hex[4].color = sf::Color::Black;
-    hex[5].color = sf::Color::Black;
-    hex[6].color = sf::Color::Black;
-
+    hex.setPointCount(6);
+    hex.setOutlineColor(sf::Color::Black);
+    hex.setOutlineThickness(5);
+    lightness = 1.0;
+    hex.setFillColor(sf::Color(lightness * 255, lightness * 255, lightness * 255));
+    
+ 
     font = std::make_shared<sf::Font>();
     font->loadFromMemory(&(ShareTechMono_Regular_ttf[0]), ShareTechMono_Regular_ttf.size());
 
@@ -46,6 +43,8 @@ hexagon::hexagon()
     size = 300;
     image.create(size, size);
     texture = new sf::Texture();
+
+    
 }
 
 hexagon::~hexagon()
@@ -98,6 +97,11 @@ hexagon_RGB::hexagon_RGB(sf::Vector2u draw_area_size)
     right_corrner.setString("B");
     SetDrawParameters(draw_area_size);
 
+    for (int i = 0; i < 6; i++)
+        hex.setPoint(i, p[i]);
+
+    hex.setOrigin(center);
+
     createTexture();
     sprite.setTexture(*texture);
     sprite.setPosition(left_top);
@@ -110,7 +114,13 @@ hexagon_CMY::hexagon_CMY(sf::Vector2u draw_area_size)
     left_corrner.setString("M");
     right_corrner.setString("K");
 
+
     SetDrawParameters(draw_area_size);
+
+    for (int i = 0; i < 6; i++)
+        hex.setPoint(i, p[i]);
+
+    hex.setOrigin(center);
 
     createTexture();
     sprite.setTexture(*texture);
@@ -127,6 +137,11 @@ hexagon_HSL::hexagon_HSL(sf::Vector2u draw_area_size)
 
     SetDrawParameters(draw_area_size);
 
+    for (int i = 0; i < 6; i++)
+        hex.setPoint(i, p[i]);
+
+    hex.setOrigin(center);
+
     createTexture();
     sprite.setTexture(*texture);
     sprite.setPosition(left_top);
@@ -140,6 +155,11 @@ hexagon_HSB::hexagon_HSB(sf::Vector2u draw_area_size)
     right_corrner.setString("B");
 
     SetDrawParameters(draw_area_size);
+
+    for (int i = 0; i < 6; i++)
+        hex.setPoint(i, p[i]);
+
+    hex.setOrigin(center);
 
     createTexture();
     sprite.setTexture(*texture);
@@ -171,8 +191,6 @@ void hexagon::Set_Borders(sf::Vector2f _left_top, sf::Vector2f _right_bottom)
 {
     left_top = _left_top;
     right_bottom = _right_bottom;
-    //float a = ((right_bottom.y - left_top.y) / 2.0f + 0.5f) - 20.0f;
-    //center = left_top + sf::Vector2f((right_bottom.x - left_top.x) / 2.0f + 0.5f, (right_bottom.y - left_top.y) / 2.0f + 0.5f + 10);
     float a = ((right_bottom.y - left_top.y) / 2.4f ) ;
     center = left_top + sf::Vector2f((right_bottom.x - left_top.x) / 2.0f , (right_bottom.y - left_top.y) / 2.0f );
 
@@ -189,8 +207,7 @@ void hexagon::Set_Borders(sf::Vector2f _left_top, sf::Vector2f _right_bottom)
     square[3].position = sf::Vector2f(right_bottom.x - 5.0f, left_top.y + 5.0f);
     square[4].position = sf::Vector2f(left_top.x + 5.0f, left_top.y + 5.0f);
 
-    for (int i = 0; i < 7; i++)
-        hex[i].position = p[i % 6];
+   
 
     name.setPosition(sf::Vector2f(left_top.x + 5.0f, left_top.y + 5.0f));
     up_corrner.setPosition(p[0]- sf::Vector2f(20.0f,  20.0f));
@@ -198,20 +215,19 @@ void hexagon::Set_Borders(sf::Vector2f _left_top, sf::Vector2f _right_bottom)
     right_corrner.setPosition(p[4] + sf::Vector2f(10.0f, 0.0f));
 
     sprite.setPosition(left_top);
+    hex.setPosition(center);
 }
 
 void hexagon::Draw_Border(sf::RenderTarget& target, sf::RenderStates states) const
 {   
     target.draw(square);
-    target.draw(hex);  
+    
+    target.draw(hex, sf::BlendMultiply);
 
     target.draw(name);
     target.draw(up_corrner);
     target.draw(right_corrner);
     target.draw(left_corrner);
-  
-    
-    // Tu trzeba narysowaæ ramkê. I napisy.
 }
 
 void hexagon_RGB::draw(sf::RenderTarget& target, sf::RenderStates states) const
@@ -255,6 +271,9 @@ void hexagon::SetDrawParameters(sf::Vector2u draw_area_size)
     
 
     sprite.setScale(borders_size.x / (float)size, borders_size.y / (float)size);
+    
+    hex.setScale(borders_size.x / (float)size, borders_size.y / (float)size);
+
 }
 
 void hexagon_RGB::SetDrawParameters(sf::Vector2u draw_area_size)
@@ -338,7 +357,6 @@ void hexagon_HSL::converter(sf::Color& passed_color, sf::Color& converted_color)
 
 void hexagon_HSB::converter(sf::Color& passed_color, sf::Color& converted_color)
 {
-    //converted_color = sf::Color::Blue;
     float H, S, B, C, X, m;
     H = passed_color.r / 255.0f * 360.0f;
     S = passed_color.g / 255.0f;

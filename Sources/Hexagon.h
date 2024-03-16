@@ -11,7 +11,10 @@ protected:
     sf::Vector2f borders_size, shift;
     sf::Vector2f left_top, right_bottom, center;
     sf::Vector2f p[6]; // Kolejnoœæ punktów opisana w pliku PDF do laboratorium.
-    sf::VertexArray square, hex;
+    sf::VertexArray square;
+    //sf::VertexArray hex;
+    sf::ConvexShape hex;
+    float lightness;
     sf::Text name, up_corrner, left_corrner, right_corrner;
 
     int size;
