@@ -64,7 +64,7 @@ int main()
                 if (bar.isHitBox(sf::Vector2f(event.mouseButton.x, event.mouseButton.y), current_lightness))
                 {
                     h_RGB.updateLightness(current_lightness);
-                    h_CMY.updateLightness(1.0f-current_lightness);
+                    h_CMY.updateLightness(current_lightness);
                     h_HSL.updateLightness(current_lightness);
                     h_HSB.updateLightness(current_lightness);
                 }

@@ -17,8 +17,8 @@ hexagon::hexagon()
     hex.setPointCount(6);
     hex.setOutlineColor(sf::Color::Black);
     hex.setOutlineThickness(5);
-    lightness = 1.0;
-    hex.setFillColor(sf::Color(lightness * 255, lightness * 255, lightness * 255));
+    
+    hex.setFillColor(sf::Color(255,  255, 255, 0));
     
  
     font = std::make_shared<sf::Font>();
@@ -221,9 +221,16 @@ void hexagon::Set_Borders(sf::Vector2f _left_top, sf::Vector2f _right_bottom)
 void hexagon::Draw_Border(sf::RenderTarget& target, sf::RenderStates states) const
 {   
     target.draw(square);
-    
-    target.draw(hex, sf::BlendMultiply);
-
+    //sf::BlendMultiply
+    /*sf::BlendMode blend(
+        sf::BlendMode::Factor::Zero,              // color src
+        sf::BlendMode::Factor::One,               // color dst
+        sf::BlendMode::Equation::Add,             // color eq
+        sf::BlendMode::Factor::Zero,              // alpha src
+        sf::BlendMode::Factor::OneMinusSrcAlpha,  // alpha dst
+        sf::BlendMode::Equation::Add);*/
+    target.draw(hex, sf::BlendAdd);
+    target.draw(hex);
     target.draw(name);
     target.draw(up_corrner);
     target.draw(right_corrner);
@@ -263,8 +270,39 @@ void hexagon_HSB::draw(sf::RenderTarget& target, sf::RenderStates states) const
 void hexagon::updateLightness(float light)
 {
     lightness = light;
-    hex.setFillColor(sf::Color(lightness*255, lightness * 255, lightness * 255));
+    hex.setFillColor(sf::Color(0, 0, 0, lightness * 255));
+    
 }
+
+/*void hexagon_RGB::updateLightness(float light)
+{
+    lightness = light;
+    hex.setFillColor(sf::Color(lightness * 255, lightness *255, lightness * 255));
+}
+
+void hexagon_CMY::updateLightness(float light)
+{
+    lightness = light;
+    sf::Color  passed = sf::Color(lightness * 255, lightness * 255, lightness * 255);
+    sf::Color recived;
+    hex.setFillColor(recived);
+}
+
+void hexagon_HSL::updateLightness(float light)
+{
+    lightness = light;
+    sf::Color  passed = sf::Color(0, 0, lightness * 255);
+    sf::Color recived;
+    hex.setFillColor(recived);
+}
+
+void hexagon_HSB::updateLightness(float light)
+{
+    lightness = light;
+    sf::Color  passed = sf::Color(0, 0, lightness * 255);
+    sf::Color recived;
+    hex.setFillColor(recived);
+}*/
 
 void hexagon::SetDrawParameters(sf::Vector2u draw_area_size)
 {

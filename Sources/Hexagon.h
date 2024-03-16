@@ -15,6 +15,7 @@ protected:
     //sf::VertexArray hex;
     sf::ConvexShape hex;
     float lightness;
+    
     sf::Text name, up_corrner, left_corrner, right_corrner;
 
     int size;
@@ -46,6 +47,7 @@ public:
     void SetDrawParameters(sf::Vector2u draw_area_size);
     hexagon_RGB(sf::Vector2u draw_area_size);
     void converter(sf::Color& passed_color, sf::Color& converted_color);
+    //void updateLightness(float lightness);
 };
 
 class hexagon_CMY : public hexagon
@@ -55,6 +57,7 @@ public:
     void SetDrawParameters(sf::Vector2u draw_area_size);
     hexagon_CMY(sf::Vector2u draw_area_size);
     void  converter(sf::Color& passed_color, sf::Color& converted_color);
+    //void updateLightness(float lightness);
 };
 
 
@@ -65,6 +68,7 @@ public:
     void SetDrawParameters(sf::Vector2u draw_area_size);
     hexagon_HSL(sf::Vector2u draw_area_size);
     void converter(sf::Color& passed_color, sf::Color& converted_color);
+    //void updateLightness(float lightness);
 };
 
 class hexagon_HSB : public hexagon
@@ -74,6 +78,7 @@ public:
     void SetDrawParameters(sf::Vector2u draw_area_size);
     hexagon_HSB(sf::Vector2u draw_area_size);
     void converter(sf::Color& passed_color, sf::Color& converted_color);
+    //void updateLightness(float lightness);
 };
 
 
