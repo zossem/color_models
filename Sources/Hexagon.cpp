@@ -260,6 +260,12 @@ void hexagon_HSB::draw(sf::RenderTarget& target, sf::RenderStates states) const
     Draw_Border(target, states);
 }
 
+void hexagon::updateLightness(float light)
+{
+    lightness = light;
+    hex.setFillColor(sf::Color(lightness*255, lightness * 255, lightness * 255));
+}
+
 void hexagon::SetDrawParameters(sf::Vector2u draw_area_size)
 {
     float border = std::min(std::floor(((float)draw_area_size.x - SCROLLBAR_WIDTH )/ 2.0f), std::floor(((float)draw_area_size.y )/ 2.0f));

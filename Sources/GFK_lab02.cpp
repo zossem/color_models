@@ -62,7 +62,13 @@ int main()
             if (event.type == sf::Event::MouseButtonPressed)
             {
                 if (bar.isHitBox(sf::Vector2f(event.mouseButton.x, event.mouseButton.y), current_lightness))
-                    std::cout << "Hitbox" << std::endl;
+                {
+                    h_RGB.updateLightness(current_lightness);
+                    h_CMY.updateLightness(1.0f-current_lightness);
+                    h_HSL.updateLightness(current_lightness);
+                    h_HSB.updateLightness(current_lightness);
+                }
+                 
             }
         }
 

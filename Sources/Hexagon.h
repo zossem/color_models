@@ -31,6 +31,7 @@ public:
     ~hexagon();
     virtual void  converter(sf::Color & passed_color, sf::Color & converted_color)=0;
     void createTexture();
+    void updateLightness(float lightness);
 
     std::shared_ptr<sf::Font> font;
 private:
