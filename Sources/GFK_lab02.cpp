@@ -26,6 +26,7 @@ int main()
     sf::Text text;
 
     float current_lightness;
+    bool isMousePressed = false;
 
     
     text.setFont(*h_RGB.font);
@@ -67,8 +68,22 @@ int main()
                     h_CMY.updateLightness(current_lightness);
                     h_HSL.updateLightness(current_lightness);
                     h_HSB.updateLightness(current_lightness);
+                    isMousePressed = true;
+                }     
+            }
+            if (event.type == sf::Event::MouseButtonReleased)
+            {
+                isMousePressed = false;
+            }
+            if (event.type == sf::Event::MouseMoved)
+            {
+                if (isMousePressed && bar.isHitBox(sf::Vector2f(event.mouseMove.x, event.mouseMove.y), current_lightness))
+                {
+                    h_RGB.updateLightness(current_lightness);
+                    h_CMY.updateLightness(current_lightness);
+                    h_HSL.updateLightness(current_lightness);
+                    h_HSB.updateLightness(current_lightness);
                 }
-                 
             }
         }
 
